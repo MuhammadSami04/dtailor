@@ -1,0 +1,53 @@
+{% extends 'tailor/base.html' %}
+
+{% block title %}Order #{{ object.id }}{% endblock %}
+
+{% block content %}
+<div class="page-content">
+  <div class="container">
+    <div class="row mb-5">
+      <div class="col-lg-6">
+        <h2 class="section-heading">Order #{{ object.id }}</h2>
+        <p class="section-sub">{{ object.customer.name }} • {{ object.dress_type }}</p>
+      </div>
+      <div class="col-lg-6 d-flex align-items-end justify-content-lg-end gap-2">
+        <a href="{% url 'order-edit' object.pk %}" class="hero-cta" style="animation: none; opacity: 1;">Edit</a>
+        <a href="{% url 'order-delete' object.pk %}" class="hero-cta" style="animation: none; opacity: 1; background: var(--rust);">Delete</a>
+      </div>
+    </div>
+
+    <div class="row g-4">
+      <div class="col-lg-6">
+        <div class="glass" style="padding: 2rem; border: 1px solid rgba(200,168,75,0.15);">
+          <h4 style="color: var(--gold); font-size: 0.85rem; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 1.5rem;">Order Details</h4>
+          <div style="display: flex; flex-direction: column; gap: 1.2rem;">
+            <div><div style="font-size: 0.78rem; color: rgba(26,18,8,0.5); text-transform: uppercase;">Customer</div><div style="font-size: 1rem; margin-top: 0.3rem;"><a href="{% url 'customer-detail' object.customer.pk %}" style="color: var(--gold); text-decoration: none;">{{ object.customer.name }}</a></div></div>
+            <div><div style="font-size: 0.78rem; color: rgba(26,18,8,0.5); text-transform: uppercase;">Dress Type</div><div style="font-size: 1rem; margin-top: 0.3rem;">{{ object.dress_type }}</div></div>
+            <div><div style="font-size: 0.78rem; color: rgba(26,18,8,0.5); text-transform: uppercase;">Status</div><div style="font-size: 1rem; margin-top: 0.3rem;"><span style="background: rgba(200,168,75,0.1); color: var(--gold); padding: 0.3rem 0.8rem; border-radius: 20px; font-size: 0.8rem;">{{ object.status }}</span></div></div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="glass" style="padding: 2rem; border: 1px solid rgba(200,168,75,0.15);">
+          <h4 style="color: var(--gold); font-size: 0.85rem; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 1.5rem;">Pricing & Dates</h4>
+          <div style="display: flex; flex-direction: column; gap: 1.2rem;">
+            <div><div style="font-size: 0.78rem; color: rgba(26,18,8,0.5); text-transform: uppercase;">Total Price</div><div style="font-size: 1.5rem; color: var(--gold);">{{ object.total_price }}</div></div>
+            <div><div style="font-size: 0.78rem; color: rgba(26,18,8,0.5); text-transform: uppercase;">Advance Paid</div><div style="font-size: 1rem; margin-top: 0.3rem;">{{ object.advance_payment }}</div></div>
+            <div><div style="font-size: 0.78rem; color: rgba(26,18,8,0.5); text-transform: uppercase;">Remaining</div><div style="font-size: 1rem; margin-top: 0.3rem; color: var(--rust);">{{ object.remaining_payment }}</div></div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-12">
+        <div class="glass" style="padding: 2rem; border: 1px solid rgba(200,168,75,0.15);">
+          <h4 style="color: var(--gold); font-size: 0.85rem; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 1.5rem;">Timeline</h4>
+          <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 2rem;">
+            <div><div style="font-size: 0.78rem; color: rgba(26,18,8,0.5); text-transform: uppercase;">Order Date</div><div style="font-size: 1rem; margin-top: 0.3rem;">{{ object.order_date }}</div></div>
+            <div><div style="font-size: 0.78rem; color: rgba(26,18,8,0.5); text-transform: uppercase;">Delivery Date</div><div style="font-size: 1rem; margin-top: 0.3rem; color: var(--gold);">{{ object.delivery_date }}</div></div>
+            <div><div style="font-size: 0.78rem; color: rgba(26,18,8,0.5); text-transform: uppercase;">Fabric Provided</div><div style="font-size: 1rem; margin-top: 0.3rem;">{% if object.fabric_provided %}Yes{% else %}No{% endif %}</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,53 @@
+{% extends 'tailor/base.html' %}
+
+{% block title %}Customers{% endblock %}
+
+{% block content %}
+<div class="page-content">
+  <div class="container">
+    <div class="row mb-5 reveal">
+      <div class="col-lg-6">
+        <p class="section-label">Management</p>
+        <h2 class="section-heading">Customers</h2>
+        <p class="section-sub">View, edit, and manage all your customers</p>
+      </div>
+      <div class="col-lg-6 d-flex align-items-end justify-content-lg-end">
+        <a href="{% url 'customer-add' %}" class="hero-cta" style="animation: none; opacity: 1;">
+          + Add Customer
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14m-7-7h14"/></svg>
+        </a>
+      </div>
+    </div>
+
+    {% if object_list %}
+    <div class="row g-3">
+      {% for customer in object_list %}
+      <div class="col-sm-6 col-lg-4">
+        <a href="{% url 'customer-detail' customer.pk %}" style="text-decoration:none;">
+          <div class="customer-card h-100">
+            <div class="customer-avatar">{{ customer.name|first|upper }}</div>
+            <h3 class="customer-name">{{ customer.name }}</h3>
+            <p class="customer-meta">Customer #{{ customer.pk }}</p>
+            {% if customer.phone %}
+            <div class="customer-detail"><span class="dot"></span> {{ customer.phone }}</div>
+            {% endif %}
+            {% if customer.gender %}
+            <div class="customer-detail"><span class="dot"></span> {{ customer.gender }}</div>
+            {% endif %}
+            {% if customer.address %}
+            <div class="customer-detail"><span class="dot"></span> {{ customer.address|truncatechars:35 }}</div>
+            {% endif %}
+            <span class="customer-badge">View Profile</span>
+          </div>
+        </a>
+      </div>
+      {% endfor %}
+    </div>
+    {% else %}
+    <div class="text-center mt-4" style="color: rgba(26,18,8,0.5); font-size: 0.9rem;">
+      No customers yet. <a href="{% url 'customer-add' %}" style="color: var(--gold);">Add your first customer →</a>
+    </div>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

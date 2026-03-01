@@ -1,0 +1,43 @@
+{% extends 'tailor/base.html' %}
+
+{% block title %}{{ object.name }} - Customer{% endblock %}
+
+{% block content %}
+<div class="page-content">
+  <div class="container">
+    <div class="row mb-5">
+      <div class="col-lg-6">
+        <div style="font-size: 5rem; color: var(--gold); opacity: 0.1; margin-bottom: 1rem;">{{ object.name|first|upper }}</div>
+        <h2 class="section-heading">{{ object.name }}</h2>
+        <p class="section-sub">Customer Profile</p>
+      </div>
+      <div class="col-lg-6 d-flex align-items-end justify-content-lg-end gap-2">
+        <a href="{% url 'customer-edit' object.pk %}" class="hero-cta" style="animation: none; opacity: 1;">Edit</a>
+        <a href="{% url 'customer-delete' object.pk %}" class="hero-cta" style="animation: none; opacity: 1; background: var(--rust);">Delete</a>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-lg-6">
+        <div class="glass" style="padding: 2rem; border: 1px solid rgba(200,168,75,0.15);">
+          <h4 style="color: var(--gold); font-size: 0.85rem; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 1.5rem;">Information</h4>
+          <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+            <div>
+              <div style="font-size: 0.78rem; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(26,18,8,0.5);">Phone</div>
+              <div style="font-size: 1.1rem; margin-top: 0.3rem;">{{ object.phone|default:"-" }}</div>
+            </div>
+            <div>
+              <div style="font-size: 0.78rem; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(26,18,8,0.5);">Gender</div>
+              <div style="font-size: 1.1rem; margin-top: 0.3rem;">{{ object.gender|default:"-" }}</div>
+            </div>
+            <div>
+              <div style="font-size: 0.78rem; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(26,18,8,0.5);">Address</div>
+              <div style="font-size: 1.1rem; margin-top: 0.3rem;">{{ object.address|default:"-" }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

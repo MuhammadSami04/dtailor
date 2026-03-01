@@ -1,0 +1,144 @@
+{% extends 'tailor/base.html' %}
+
+{% block title %}Home - Tailor Management{% endblock %}
+
+{% block content %}
+<!-- ─── HERO SECTION ─── -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-lines">
+    <span></span><span></span><span></span><span></span><span></span>
+  </div>
+  <div class="scissors-icon">✂</div>
+
+  <div class="hero-content">
+    <p class="hero-eyebrow">Est. 2024 &nbsp;·&nbsp; Precision Tailoring</p>
+    <h1 class="hero-title">Crafted with<br><em>Excellence</em></h1>
+    <p class="hero-desc">Manage every stitch of your tailoring business — from customer measurements to final deliveries — in one elegant workspace.</p>
+    <a href="{% url 'customer-list' %}" class="hero-cta">
+      View Customers
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </a>
+  </div>
+</section>
+
+<!-- ─── STATS BAR ─── -->
+<div class="stats-bar reveal">
+  <div class="container">
+    <div class="row g-0 justify-content-center">
+      <div class="col-6 col-md-3">
+        <div class="stat-item">
+          <span class="stat-number">{{ customers.count|default:"0" }}</span>
+          <span class="stat-label">Customers</span>
+        </div>
+      </div>
+      <div class="col-6 col-md-3">
+        <div class="stat-item">
+          <span class="stat-number">{{ total_orders|default:"0" }}</span>
+          <span class="stat-label">Total Orders</span>
+        </div>
+      </div>
+      <div class="col-6 col-md-3">
+        <div class="stat-item">
+          <span class="stat-number">{{ active_orders|default:"0" }}</span>
+          <span class="stat-label">Active Orders</span>
+        </div>
+      </div>
+      <div class="col-6 col-md-3">
+        <div class="stat-item">
+          <span class="stat-number">{{ pending_payments|default:"0" }}</span>
+          <span class="stat-label">Pending Payments</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ─── CUSTOMERS SECTION ─── -->
+<section class="section-customers">
+  <div class="container">
+    <div class="row mb-4 reveal">
+      <div class="col-lg-6">
+        <p class="section-label">Our Clientele</p>
+        <h2 class="section-heading">Recent<br>Customers</h2>
+        <p class="section-sub">Every name behind a measurement, an order, a story.</p>
+      </div>
+      <div class="col-lg-6 d-flex align-items-end justify-content-lg-end">
+        <a href="{% url 'customer-list' %}" class="hero-cta" style="animation: none; opacity: 1;">
+          All Customers
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+    </div>
+
+    {% if customers %}
+    <div class="row g-3">
+      {% for customer in customers %}
+      <div class="col-sm-6 col-lg-4">
+        <a href="{% url 'customer-detail' customer.pk %}" style="text-decoration:none;">
+          <div class="customer-card h-100">
+            <div class="customer-avatar">{{ customer.name|first|upper }}</div>
+            <h3 class="customer-name">{{ customer.name }}</h3>
+            <p class="customer-meta">Customer #{{ customer.pk }}</p>
+            {% if customer.phone %}
+            <div class="customer-detail"><span class="dot"></span> {{ customer.phone }}</div>
+            {% endif %}
+            {% if customer.email %}
+            <div class="customer-detail"><span class="dot"></span> {{ customer.email }}</div>
+            {% endif %}
+            {% if customer.address %}
+            <div class="customer-detail"><span class="dot"></span> {{ customer.address|truncatechars:35 }}</div>
+            {% endif %}
+            <span class="customer-badge">View Profile</span>
+          </div>
+        </a>
+      </div>
+      {% endfor %}
+    </div>
+    {% else %}
+    <!-- Empty state -->
+    <div class="text-center mt-4" style="color: rgba(26,18,8,0.5); font-size: 0.9rem;">
+      No customers yet. <a href="{% url 'customer-add' %}" style="color: var(--gold);">Add your first customer →</a>
+    </div>
+    {% endif %}
+  </div>
+</section>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  // Scroll reveal
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  // Navbar scroll effect
+  const navbar = document.querySelector('.navbar');
+  window.addEventListener('scroll', () => {
+    navbar.style.boxShadow = window.scrollY > 50
+      ? '0 4px 30px rgba(0,0,0,0.4)'
+      : 'none';
+  });
+
+  // Card stagger on scroll
+  const cardObserver = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        e.target.style.animationDelay = `${i * 0.08}s`;
+        e.target.style.animationPlayState = 'running';
+      }
+    });
+  }, { threshold: 0.05 });
+
+  document.querySelectorAll('.customer-card').forEach(c => {
+    c.style.animationPlayState = 'paused';
+    cardObserver.observe(c);
+  });
+</script>
+{% endblock %}

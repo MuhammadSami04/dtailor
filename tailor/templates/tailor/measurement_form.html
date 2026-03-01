@@ -1,0 +1,51 @@
+{% extends 'tailor/base.html' %}
+
+{% block title %}{% if object %}Edit Measurement{% else %}Record Measurement{% endif %}{% endblock %}
+
+{% block content %}
+<div class="page-content">
+  <div class="container">
+    <div class="row mb-5">
+      <div class="col-lg-8">
+        <h2 class="section-heading">{% if object %}Edit Measurement{% else %}Record New Measurement{% endif %}</h2>
+        <p class="section-sub">{{ "Update measurement details"|default:"Record customer body measurements" }}</p>
+      </div>
+    </div>
+
+    <div class="row justify-content-center">
+      <div class="col-lg-6">
+        <div class="glass" style="padding: 2.5rem; border: 1px solid rgba(200,168,75,0.15);">
+          <form method="post" novalidate>
+            {% csrf_token %}
+            
+            {% for field in form %}
+              {% if field.widget.input_type != 'hidden' %}
+              <div style="margin-bottom: 1.5rem;">
+                {{ field.label_tag }}
+                {{ field }}
+                {% if field.errors %}
+                  <ul style="list-style: none; margin-top: 0.5rem; padding: 0;">
+                    {% for error in field.errors %}
+                      <li style="color: var(--rust); font-size: 0.85rem; padding: 0.4rem 0;">{{ error }}</li>
+                    {% endfor %}
+                  </ul>
+                {% endif %}
+              </div>
+              {% endif %}
+            {% endfor %}
+            
+            <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+              <button type="submit" class="hero-cta" style="animation: none; opacity: 1; flex: 1; text-align: center;">
+                {% if object %}Update{% else %}Record{% endif %} Measurement
+              </button>
+              <a href="{% url 'measurement-list' %}" class="hero-cta" style="animation: none; opacity: 1; background: transparent; border: 1px solid var(--gold); color: var(--ink); flex: 1; text-align: center; display: flex; align-items: center; justify-content: center;">
+                Cancel
+              </a>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

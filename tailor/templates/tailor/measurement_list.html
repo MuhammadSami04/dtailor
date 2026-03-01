@@ -1,0 +1,55 @@
+{% extends 'tailor/base.html' %}
+
+{% block title %}Measurements{% endblock %}
+
+{% block content %}
+<div class="page-content">
+  <div class="container">
+    <div class="row mb-5 reveal">
+      <div class="col-lg-6">
+        <p class="section-label">Records</p>
+        <h2 class="section-heading">Measurements</h2>
+        <p class="section-sub">Track all customer measurements and body sizes</p>
+      </div>
+      <div class="col-lg-6 d-flex align-items-end justify-content-lg-end">
+        <a href="{% url 'measurement-add' %}" class="hero-cta" style="animation: none; opacity: 1;">
+          + Record Measurement
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14m-7-7h14"/></svg>
+        </a>
+      </div>
+    </div>
+
+    {% if object_list %}
+    <div style="overflow-x: auto;">
+      <table style="width: 100%; border-collapse: collapse;">
+        <thead>
+          <tr style="border-bottom: 2px solid var(--gold);">
+            <th style="text-align: left; padding: 1rem; color: var(--gold); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.1em;">Customer</th>
+            <th style="text-align: left; padding: 1rem; color: var(--gold); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.1em;">Date</th>
+            <th style="text-align: left; padding: 1rem; color: var(--gold); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.1em;">Chest</th>
+            <th style="text-align: left; padding: 1rem; color: var(--gold); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.1em;">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for m in object_list %}
+          <tr style="border-bottom: 1px solid rgba(200,168,75,0.1);">
+            <td style="padding: 1rem;"><a href="{% url 'measurement-detail' m.pk %}" style="color: var(--ink); text-decoration: none;">{{ m.customer.name }}</a></td>
+            <td style="padding: 1rem;">{{ m.date_taken }}</td>
+            <td style="padding: 1rem;">{{ m.chest }}</td>
+            <td style="padding: 1rem;">
+              <a href="{% url 'measurement-edit' m.pk %}" style="color: var(--gold); text-decoration: none; font-size: 0.9rem;">Edit</a> | 
+              <a href="{% url 'measurement-delete' m.pk %}" style="color: var(--rust); text-decoration: none; font-size: 0.9rem;">Delete</a>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% else %}
+    <div class="text-center mt-4" style="color: rgba(26,18,8,0.5); font-size: 0.9rem;">
+      No measurements yet. <a href="{% url 'measurement-add' %}" style="color: var(--gold);">Record first measurement →</a>
+    </div>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

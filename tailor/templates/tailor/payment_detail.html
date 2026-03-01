@@ -1,0 +1,42 @@
+{% extends 'tailor/base.html' %}
+
+{% block title %}Payment #{{ object.id }}{% endblock %}
+
+{% block content %}
+<div class="page-content">
+  <div class="container">
+    <div class="row mb-5">
+      <div class="col-lg-6">
+        <h2 class="section-heading">Payment #{{ object.id }}</h2>
+        <p class="section-sub">Order #{{ object.order.id }} • {{ object.order.customer.name }}</p>
+      </div>
+      <div class="col-lg-6 d-flex align-items-end justify-content-lg-end gap-2">
+        <a href="{% url 'payment-edit' object.pk %}" class="hero-cta" style="animation: none; opacity: 1;">Edit</a>
+        <a href="{% url 'payment-delete' object.pk %}" class="hero-cta" style="animation: none; opacity: 1; background: var(--rust);">Delete</a>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-lg-6">
+        <div class="glass" style="padding: 2rem; border: 1px solid rgba(200,168,75,0.15);">
+          <h4 style="color: var(--gold); font-size: 0.85rem; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 1.5rem;">Payment Info</h4>
+          <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+            <div>
+              <div style="font-size: 0.78rem; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(26,18,8,0.5);">Amount Paid</div>
+              <div style="font-size: 2rem; color: var(--gold); margin-top: 0.5rem; font-weight: 600;">{{ object.amount_paid }}</div>
+            </div>
+            <div>
+              <div style="font-size: 0.78rem; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(26,18,8,0.5);">Payment Date</div>
+              <div style="font-size: 1.1rem; margin-top: 0.3rem;">{{ object.payment_date }}</div>
+            </div>
+            <div>
+              <div style="font-size: 0.78rem; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(26,18,8,0.5);">For Order</div>
+              <div style="font-size: 1.1rem; margin-top: 0.3rem;"><a href="{% url 'order-detail' object.order.pk %}" style="color: var(--gold); text-decoration: none;">#{{ object.order.id }}</a></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

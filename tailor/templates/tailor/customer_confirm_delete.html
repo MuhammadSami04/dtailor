@@ -1,0 +1,29 @@
+{% extends 'tailor/base.html' %}
+
+{% block title %}Delete Customer{% endblock %}
+
+{% block content %}
+<div class="page-content">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-6">
+        <div class="glass" style="padding: 3rem; border: 1px solid rgba(200,168,75,0.15); text-align: center;">
+          <div style="font-size: 3rem; color: var(--rust); opacity: 0.3; margin-bottom: 1rem;">⚠</div>
+          <h2 class="section-heading">Delete Customer?</h2>
+          <p class="section-sub" style="margin-bottom: 2rem;">Are you sure you want to delete <strong>{{ object.name }}</strong>?</p>
+          <p style="color: rgba(26,18,8,0.5); margin-bottom: 2rem;">This action cannot be undone. All related measurements, orders, and payments will be affected.</p>
+          <form method="post" style="display: flex; gap: 1rem;">
+            {% csrf_token %}
+            <button type="submit" class="hero-cta" style="animation: none; opacity: 1; flex: 1; background: var(--rust); text-align: center;">
+              Yes, Delete
+            </button>
+            <a href="{% url 'customer-list' %}" class="hero-cta" style="animation: none; opacity: 1; background: transparent; border: 1px solid var(--gold); color: var(--ink); flex: 1; text-align: center; display: flex; align-items: center; justify-content: center;">
+              Cancel
+            </a>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

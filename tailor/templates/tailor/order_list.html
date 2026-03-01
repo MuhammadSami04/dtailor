@@ -1,0 +1,55 @@
+{% extends 'tailor/base.html' %}
+
+{% block title %}Orders{% endblock %}
+
+{% block content %}
+<div class="page-content">
+  <div class="container">
+    <div class="row mb-5 reveal">
+      <div class="col-lg-6">
+        <p class="section-label">Operations</p>
+        <h2 class="section-heading">Orders</h2>
+        <p class="section-sub">View and manage all tailoring orders</p>
+      </div>
+      <div class="col-lg-6 d-flex align-items-end justify-content-lg-end">
+        <a href="{% url 'order-add' %}" class="hero-cta" style="animation: none; opacity: 1;">
+          + New Order
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14m-7-7h14"/></svg>
+        </a>
+      </div>
+    </div>
+
+    {% if object_list %}
+    <div style="overflow-x: auto;">
+      <table style="width: 100%; border-collapse: collapse;">
+        <thead>
+          <tr style="border-bottom: 2px solid var(--gold);">
+            <th style="text-align: left; padding: 1rem; color: var(--gold); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.1em;">Customer</th>
+            <th style="text-align: left; padding: 1rem; color: var(--gold); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.1em;">Status</th>
+            <th style="text-align: left; padding: 1rem; color: var(--gold); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.1em;">Delivery</th>
+            <th style="text-align: left; padding: 1rem; color: var(--gold); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.1em;">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for o in object_list %}
+          <tr style="border-bottom: 1px solid rgba(200,168,75,0.1);">
+            <td style="padding: 1rem;"><a href="{% url 'order-detail' o.pk %}" style="color: var(--ink); text-decoration: none;">{{ o.customer.name }}</a></td>
+            <td style="padding: 1rem;"><span style="background: rgba(200,168,75,0.1); color: var(--gold); padding: 0.3rem 0.8rem; border-radius: 20px; font-size: 0.8rem;">{{ o.status }}</span></td>
+            <td style="padding: 1rem;">{{ o.delivery_date }}</td>
+            <td style="padding: 1rem;">
+              <a href="{% url 'order-edit' o.pk %}" style="color: var(--gold); text-decoration: none; font-size: 0.9rem;">Edit</a> | 
+              <a href="{% url 'order-delete' o.pk %}" style="color: var(--rust); text-decoration: none; font-size: 0.9rem;">Delete</a>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% else %}
+    <div class="text-center mt-4" style="color: rgba(26,18,8,0.5); font-size: 0.9rem;">
+      No orders yet. <a href="{% url 'order-add' %}" style="color: var(--gold);">Create first order →</a>
+    </div>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}
